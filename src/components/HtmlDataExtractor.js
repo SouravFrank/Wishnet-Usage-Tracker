@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../styles/HtmlDataExtractor.css';
 
 const API_URL = 'http://localhost:8080/api/usageData';
 
@@ -7,19 +8,28 @@ const HtmlDataExtractor = () => {
   const [htmlContent, setHtmlContent] = useState('');
   const [existingData, setExistingData] = useState([]);
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [showSnackbar, setShowSnackbar] = useState(false);
 
   useEffect(() => {
     fetchExistingData();
   }, []);
 
   const fetchExistingData = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(API_URL);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
       const data = await response.json();
       setExistingData(data);
     } catch (error) {
       console.error('Error loading existing data:', error);
       setMessage('Error loading existing data. Please try again.');
+      setShowSnackbar(true);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -28,6 +38,7 @@ const HtmlDataExtractor = () => {
   };
 
   const extractAndSaveData = async () => {
+    setIsLoading(true);
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, 'text/html');
     
@@ -67,6 +78,7 @@ const HtmlDataExtractor = () => {
       if (response.ok) {
         setExtractedData(uniqueData);
         setMessage('Data extracted and saved successfully!');
+        setShowSnackbar(true);
         fetchExistingData(); // Refresh the existing data
       } else {
         throw new Error('Failed to save data');
@@ -74,33 +86,52 @@ const HtmlDataExtractor = () => {
     } catch (error) {
       console.error('Error saving data:', error);
       setMessage('Error saving data. Please try again.');
+      setShowSnackbar(true);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">HTML Data Extractor</h1>
-      <textarea
-        value={htmlContent}
-        onChange={handleHtmlInput}
-        className="w-full h-48 mb-4 p-2 border rounded"
-        placeholder="Paste your HTML content here"
-      />
-      <button 
-        onClick={extractAndSaveData}
-        className="mb-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-      >
-        Extract and Save Data
-      </button>
-      {message && (
-        <p className="mb-4 text-blue-600">{message}</p>
-      )}
-      {extractedData.length > 0 && (
-        <div>
-          <h2 className="text-xl font-semibold mb-2">Extracted Data:</h2>
-          <pre className="bg-gray-100 p-4 rounded overflow-auto max-h-96">
+    <div className="container">
+      <h1 className="title">HTML Data Extractor</h1>
+      <div className="card">
+        <textarea
+          className="textarea"
+          value={htmlContent}
+          onChange={handleHtmlInput}
+          placeholder="Paste your HTML content here"
+          rows="6"
+        />
+        <button 
+          className={`button ${isLoading ? 'loading' : ''}`}
+          onClick={extractAndSaveData}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <div className="spinner"></div>
+          ) : (
+            <>
+              <span className="button-icon">&#x2601;</span>
+              Extract and Save Data
+            </>
+          )}
+        </button>
+      </div>
+      {/* {extractedData.length > 0 && (
+        <div className="card">
+          <h2 className="subtitle">Extracted Data:</h2>
+          <pre className="extracted-data">
             {JSON.stringify(extractedData, null, 2)}
           </pre>
+        </div>
+      )} */}
+      {showSnackbar && (
+        <div className="snackbar">
+          {message}
+          <button className="snackbar-close" onClick={() => setShowSnackbar(false)}>
+            &times;
+          </button>
         </div>
       )}
     </div>

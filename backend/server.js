@@ -9,12 +9,14 @@ const port = 8080;
 app.use(cors());
 app.use(express.json());
 
-const dataFilePath = path.join(__dirname, '..', 'src', 'data', 'usageData.json');
+const dataFilePath = path.join(__dirname, 'data', 'usageData.json');
 
 app.get('/api/usageData', async (req, res) => {
   try {
     const data = await fs.readFile(dataFilePath, 'utf8');
-    res.json(JSON.parse(data));
+    const jsonData = JSON.parse(data);
+    const sortedData = jsonData.sort((a, b) => new Date(b.loginTime) - new Date(a.loginTime));
+    res.json(sortedData);
   } catch (error) {
     console.error('Error reading data:', error);
     res.status(500).json({ error: 'Error reading data' });
