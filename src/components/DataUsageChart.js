@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import '../styles/DataUsageChart.css';
 
 const API_URL = 'http://localhost:8080/api/usageData';
@@ -17,55 +18,26 @@ const DataUsageChart = () => {
         throw new Error('Network response was not ok');
       }
       const jsonData = await response.json();
-      const processedData = processData(jsonData);
-      setData(processedData);
+      setData(jsonData); // Use the raw data directly
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
-  const processData = (rawData) => {
-    return rawData.map(item => ({
-      date: item.loginTime,
-      download: item.download,
-      upload: item.upload
-    }));
-  };
-
-  const maxDataUsage = Math.max(...data.map(item => Math.max(item.download, item.upload)));
-
   return (
     <div className="chart-container">
       <h2 className="chart-title">Data Usage Chart</h2>
-      <div className="chart">
-        {data.map((item, index) => (
-          <div key={index} className="chart-bar">
-            <div className="bar-label">{item.date}</div>
-            <div className="bar-container">
-              <div 
-                className="bar download" 
-                style={{height: `${(item.download / maxDataUsage) * 100}%`}}
-                title={`Download: ${item.download.toFixed(2)} MB`}
-              ></div>
-              <div 
-                className="bar upload" 
-                style={{height: `${(item.upload / maxDataUsage) * 100}%`}}
-                title={`Upload: ${item.upload.toFixed(2)} MB`}
-              ></div>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="legend">
-        <div className="legend-item">
-          <div className="legend-color download"></div>
-          <span>Download</span>
-        </div>
-        <div className="legend-item">
-          <div className="legend-color upload"></div>
-          <span>Upload</span>
-        </div>
-      </div>
+      <ResponsiveContainer width="100%" height={400}>
+        <LineChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="loginTime" />
+          <YAxis label={{ value: 'Data Usage (MB)', angle: -90, position: 'insideLeft' }} />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="download" stroke="#8884d8" name="Download (MB)" />
+          <Line type="monotone" dataKey="upload" stroke="#82ca9d" name="Upload (MB)" />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
 };
