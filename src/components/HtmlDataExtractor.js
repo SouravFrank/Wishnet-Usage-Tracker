@@ -4,7 +4,7 @@ import '../styles/HtmlDataExtractor.css';
 const API_URL = 'http://localhost:8080/api/usageData';
 
 const HtmlDataExtractor = () => {
-  const [extractedData, setExtractedData] = useState([]);
+//   const [extractedData, setExtractedData] = useState([]);
   const [htmlContent, setHtmlContent] = useState('');
   const [existingData, setExistingData] = useState([]);
   const [message, setMessage] = useState('');
@@ -63,9 +63,10 @@ const HtmlDataExtractor = () => {
     // Merge new data with existing data and remove duplicates
     const mergedData = [...existingData, ...newData];
     const uniqueData = Array.from(new Set(mergedData.map(JSON.stringify))).map(JSON.parse);
-    
-    // Sort data by login time
+
+    // Sort data by login time in ascending order (oldest first)
     uniqueData.sort((a, b) => new Date(a.loginTime) - new Date(b.loginTime));
+    console.log("🚀 ~ extractAndSaveData ~ uniqueData:", uniqueData)
 
     try {
       const response = await fetch(API_URL, {
@@ -76,7 +77,7 @@ const HtmlDataExtractor = () => {
         body: JSON.stringify(uniqueData),
       });
       if (response.ok) {
-        setExtractedData(uniqueData);
+        // setExtractedData(uniqueData);
         setMessage('Data extracted and saved successfully!');
         setShowSnackbar(true);
         fetchExistingData(); // Refresh the existing data

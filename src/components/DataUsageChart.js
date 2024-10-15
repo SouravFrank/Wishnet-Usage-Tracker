@@ -18,10 +18,19 @@ const DataUsageChart = () => {
         throw new Error('Network response was not ok');
       }
       const jsonData = await response.json();
-      setData(jsonData); // Use the raw data directly
+      // Sort data by login time in ascending order (oldest first)
+      jsonData.sort((a, b) => parseDate(a.loginTime) - parseDate(b.loginTime));
+      setData(jsonData); // Use the sorted data directly
     } catch (error) {
       console.error('Error fetching data:', error);
     }
+  };
+
+  // Function to parse date from DD-MM-YYYY HH:mm:ss format
+  const parseDate = (dateString) => {
+    const [date, time] = dateString.split(' ');
+    const [day, month, year] = date.split('-');
+    return new Date(year, month - 1, day, ...time.split(':')); // Month is 0-indexed
   };
 
   // Function to format MB to GB for tooltip
@@ -34,7 +43,7 @@ const DataUsageChart = () => {
 
   // Function to format date to DD/MM
   const formatDate = (dateString) => {
-    const [day, month, year] = dateString.split('-');
+    const [day, month] = dateString.split('-');
     return `${day}/${month}`;
   };
 
