@@ -3,7 +3,7 @@ import '../styles/HtmlDataExtractor.css';
 
 const API_URL = 'http://localhost:8080/api/usageData';
 
-const HtmlDataExtractor = () => {
+const HtmlDataExtractor = ({setReload}) => {
 //   const [extractedData, setExtractedData] = useState([]);
   const [htmlContent, setHtmlContent] = useState('');
   const [existingData, setExistingData] = useState([]);
@@ -89,6 +89,8 @@ const HtmlDataExtractor = () => {
       setShowSnackbar(true);
     } finally {
       setIsLoading(false);
+      setReload(true)
+      handleHtmlInput("")
     }
   };
 

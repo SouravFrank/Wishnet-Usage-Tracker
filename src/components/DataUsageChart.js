@@ -65,7 +65,7 @@ const DataUsageChart = () => {
             interval={0} // Show all ticks
             tick={{ fontSize: 14 }} // Adjust font size for Y-axis
           />
-          <Tooltip formatter={(value) => formatDataUsage(value)} />
+          <Tooltip formatter={(value, name, props) => formatDataUsage(value) + ` (${props.payload.sessionTime} duration)`} contentStyle={{ fontSize: 11.5 }} />
           <Legend />
           <Line type="monotone" dataKey="download" stroke="#4CAF50" name="Download" />
           <Line type="monotone" dataKey="upload" stroke="#2196F3" name="Upload" />

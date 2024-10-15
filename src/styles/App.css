@@ -1,10 +1,79 @@
 .App {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px; /* Keep padding for overall layout */
-  font-family: 'Roboto', Arial, sans-serif;
-  display: flex; /* Use flexbox for layout */
-  flex-direction: column; /* Stack components vertically */
-  gap: 20px; /* Add gap between components */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    /* Keep padding for overall layout */
+    font-family: 'Roboto', Arial, sans-serif;
+    display: flex;
+    /* Use flexbox for layout */
+    flex-direction: column;
+    /* Stack components vertically */
+    gap: 20px;
+    /* Add gap between components */
 }
 
+.loader-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loader {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 6rem;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.loader:before,
+.loader:after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    animation: pulsOut 1.8s ease-in-out infinite;
+    filter: drop-shadow(0 0 1rem rgba(255, 255, 255, 0.75));
+}
+
+.loader:before {
+    width: 100%;
+    padding-bottom: 100%;
+    box-shadow: inset 0 0 0 1rem #555;
+    animation-name: pulsIn;
+}
+
+.loader:after {
+    width: calc(100% - 2rem);
+    padding-bottom: calc(100% - 2rem);
+    box-shadow: 0 0 0 0 #555;
+}
+
+@keyframes pulsIn {
+    0% {
+        box-shadow: inset 0 0 0 1rem #555;
+        opacity: 1;
+    }
+
+    50%,
+    100% {
+        box-shadow: inset 0 0 0 0 #555;
+        opacity: 0;
+    }
+}
+
+@keyframes pulsOut {
+
+    0%,
+    50% {
+        box-shadow: 0 0 0 0 #555;
+        opacity: 0;
+    }
+
+    100% {
+        box-shadow: 0 0 0 1rem #555;
+        opacity: 1;
+    }
+}
