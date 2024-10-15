@@ -17,9 +17,16 @@ body {
 }
 
 .container {
-  max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+      /* margin: 10px; */
+      width: 100%;
+  /* max-width: 800px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem; Reduced padding */
+
+  
 }
 
 .title {
@@ -30,21 +37,33 @@ body {
 }
 
 .card {
-  background-color: var(--card-background);
+  /* background-color: var(--card-background);
   border-radius: 4px;
   box-shadow: 0 2px 4px var(--shadow-color);
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
+  padding: 1rem; 
+  margin-bottom: 1rem; 
+  width: 100%;
+  margin: 0; */
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 30px);
+  background-color: var(--card-background);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px var(--shadow-color);
+  padding: 15px;
+  margin: 10px 0;
 }
 
 .textarea {
-  width: 100%;
+  width: calc(100% - 30px);
   padding: 0.75rem;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
   font-family: inherit;
   resize: vertical;
+  margin: auto;
+  align-self: center;
 }
 
 .button {
@@ -59,6 +78,8 @@ body {
   align-items: center;
   justify-content: center;
   transition: background-color 0.3s;
+  margin-top: 6px;
+  align-self: flex-end;
 }
 
 .button:hover {
@@ -131,4 +152,3 @@ body {
   cursor: pointer;
   margin-left: 1rem;
 }
-

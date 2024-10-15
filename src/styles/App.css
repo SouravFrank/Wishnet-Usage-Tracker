@@ -1,7 +1,10 @@
 .App {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 20px; /* Keep padding for overall layout */
   font-family: 'Roboto', Arial, sans-serif;
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack components vertically */
+  gap: 20px; /* Add gap between components */
 }
 

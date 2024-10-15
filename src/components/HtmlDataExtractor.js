@@ -66,7 +66,6 @@ const HtmlDataExtractor = () => {
 
     // Sort data by login time in ascending order (oldest first)
     uniqueData.sort((a, b) => new Date(a.loginTime) - new Date(b.loginTime));
-    console.log("🚀 ~ extractAndSaveData ~ uniqueData:", uniqueData)
 
     try {
       const response = await fetch(API_URL, {
@@ -95,13 +94,13 @@ const HtmlDataExtractor = () => {
 
   return (
     <div className="container">
-      <h1 className="title">HTML Data Extractor</h1>
+      <h1 className="title">Wishnet Usage Tracker</h1>
       <div className="card">
         <textarea
           className="textarea"
           value={htmlContent}
           onChange={handleHtmlInput}
-          placeholder="Paste your HTML content here"
+          placeholder="Please paste your HTML content here for extraction"
           rows="6"
         />
         <button 
