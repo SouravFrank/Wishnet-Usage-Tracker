@@ -35,7 +35,7 @@ To get a local copy up and running, follow these steps:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/wishnet-usage-tracker.git
+   git clone https://github.com/SouravFrank/Wishnet-Usage-Tracker.git
    cd wishnet-usage-tracker
    ```
 
@@ -82,6 +82,8 @@ Contributions are welcome! Please follow these steps:
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
 4. Push to the branch (`git push origin feature/AmazingFeature`).
 5. Open a pull request.
+
+----
 
 ### Engage with Us!
 
