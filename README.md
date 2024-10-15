@@ -1,7 +1,8 @@
 # Wishnet Usage Tracker
 
+![Wishnet Usage Tracker Screenshot](./localhost_3000_.png)
 
-**Wishnet Usage Tracker** is a web application designed to help users track their data usage efficiently. With a user-friendly interface and insightful visualizations, you can monitor your download and upload activities over time.
+**Wishnet Usage Tracker** is a powerful web application designed to help users efficiently track their data usage. With a user-friendly interface and insightful visualizations, you can monitor your download and upload activities over time, making it easier to manage your data consumption.
 
 ## Table of Contents
 
@@ -14,17 +15,19 @@
 
 ## Features
 
-- **Data Visualization**: Interactive charts to visualize data usage trends.
-- **HTML Data Extraction**: Easily extract data from HTML tables and save it.
-- **Responsive Design**: Works seamlessly on both desktop and mobile devices.
-- **User Notifications**: Snackbar notifications for user feedback.
+- **Data Visualization**: Interactive charts powered by Recharts to visualize data usage trends over time.
+- **HTML Data Extraction**: Easily extract data from HTML tables and save it to your backend.
+- **Responsive Design**: Optimized for both desktop and mobile devices, ensuring a seamless user experience.
+- **User Notifications**: Snackbar notifications provide real-time feedback to users during data extraction and saving processes.
 
 ## Technologies Used
 
-- **React**: A JavaScript library for building user interfaces.
-- **Recharts**: A composable charting library built on React components.
-- **CSS Variables**: For consistent theming and styling.
-- **Fetch API**: For making HTTP requests to the backend.
+- **React**: A JavaScript library for building user interfaces, enabling a component-based architecture.
+- **Recharts**: A composable charting library built on React components, providing flexible and customizable charts.
+- **CSS Variables**: For consistent theming and styling across the application.
+- **Fetch API**: For making HTTP requests to the backend, facilitating data retrieval and submission.
+- **Express**: A minimal and flexible Node.js web application framework for building the backend server.
+- **Concurrently**: To run both the frontend and backend servers simultaneously during development.
 
 ## Getting Started
 
@@ -55,10 +58,6 @@ In the project directory, you can run:
 
 Runs the app in development mode. The page will reload when you make changes.
 
-### `npm test`
-
-Launches the test runner in interactive watch mode.
-
 ### `npm run build`
 
 Builds the app for production to the `build` folder. Your app is ready to be deployed!
@@ -72,7 +71,7 @@ If you aren't satisfied with the build tool and configuration choices, you can e
 ## Usage
 
 1. **Extract Data**: Paste your HTML content into the provided textarea and click "Extract and Save Data".
-2. **View Data Usage**: Monitor your data usage trends through the interactive chart.
+2. **View Data Usage**: Monitor your data usage trends through the interactive chart, which updates in real-time based on the extracted data.
 
 ## Contributing
 
@@ -84,6 +83,6 @@ Contributions are welcome! Please follow these steps:
 4. Push to the branch (`git push origin feature/AmazingFeature`).
 5. Open a pull request.
 
----
+### Engage with Us!
 
-Feel free to replace the placeholder logo URL with your actual logo and adjust any sections to better fit your project's specifics. This README provides a comprehensive overview while maintaining a clean and professional appearance.
+We encourage you to engage with the project by providing feedback, reporting issues, or suggesting features. Your contributions help us improve the application and make it more useful for everyone!
