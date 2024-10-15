@@ -96,7 +96,6 @@ const HtmlDataExtractor = ({setReload}) => {
 
   return (
     <div className="container">
-      <h1 className="title">Wishnet Usage Tracker</h1>
       <div className="card">
         <textarea
           className="textarea"

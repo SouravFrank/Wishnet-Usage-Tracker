@@ -67,8 +67,8 @@ const DataUsageChart = () => {
           />
           <Tooltip formatter={(value, name, props) => formatDataUsage(value) + ` (${props.payload.sessionTime} duration)`} contentStyle={{ fontSize: 11.5 }} />
           <Legend />
-          <Line type="monotone" dataKey="download" stroke="#4CAF50" name="Download" />
-          <Line type="monotone" dataKey="upload" stroke="#2196F3" name="Upload" />
+          <Line type="monotone" dataKey="download" stroke="#800303" name="Download" />
+          <Line type="monotone" dataKey="upload" stroke="#ff6767" name="Upload" />
         </LineChart>
       </ResponsiveContainer>
     </div>

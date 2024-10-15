@@ -14,6 +14,7 @@ function App() {
   }, [reload])
   return (
     <div className="App">
+      <h1 class='elegantshadow'>Wishnet Usage Tracker</h1>
       <HtmlDataExtractor setReload={setReload} />
       {reload ? <div className='loader-container'><span className="loader" /></div> : <DataUsageChart />}
     </div>

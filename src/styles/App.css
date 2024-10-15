@@ -1,3 +1,25 @@
+:root {
+    --primary-color: #c00505;
+    --primary-light: #850303;
+    --primary-dark: #500202;
+    --text-color: #333;
+    --background-color: #f5f5f5;
+    --card-background: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+/* #d60606, #d00505, #cb0505, #c50505, #c00505, #bb0505, #b50505, #b00404, #ab0404, #a50404,
+#a00404, #9b0404, #950404, #900404, #8b0303, #850303, #800303, #7b0303, #750303, #700303,
+#6b0303, #650202, #600202, #5a0202, #550202, #500202, #4a0202, #450101, #400101, #3a0101 */
+/* #dd0606, #e40606, #eb0606, #f20606, #f80808, #f80f0f, #f81616, #f81d1d, #f82525, #f92c2c */
+
 .App {
     max-width: 1200px;
     margin: 0 auto;
@@ -41,25 +63,25 @@
 .loader:before {
     width: 100%;
     padding-bottom: 100%;
-    box-shadow: inset 0 0 0 1rem #555;
+    box-shadow: inset 0 0 0 1rem #a00404;
     animation-name: pulsIn;
 }
 
 .loader:after {
     width: calc(100% - 2rem);
     padding-bottom: calc(100% - 2rem);
-    box-shadow: 0 0 0 0 #555;
+    box-shadow: 0 0 0 0 #a00404;
 }
 
 @keyframes pulsIn {
     0% {
-        box-shadow: inset 0 0 0 1rem #555;
+        box-shadow: inset 0 0 0 1rem #a00404;
         opacity: 1;
     }
 
     50%,
     100% {
-        box-shadow: inset 0 0 0 0 #555;
+        box-shadow: inset 0 0 0 0 #a00404;
         opacity: 0;
     }
 }
@@ -68,12 +90,28 @@
 
     0%,
     50% {
-        box-shadow: 0 0 0 0 #555;
+        box-shadow: 0 0 0 0 #a00404;
         opacity: 0;
     }
 
     100% {
-        box-shadow: 0 0 0 1rem #555;
+        box-shadow: 0 0 0 1rem #a00404;
         opacity: 1;
     }
+}
+
+h1 {
+    font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+    font-size: 60px;
+    text-align: center;
+    text-transform: uppercase;
+    text-rendering: optimizeLegibility;
+    color: #d60606; /* Set text color */
+}
+
+h1.elegantshadow {
+    color: #d60606;
+    /* background-color: #e7e5e4; */
+    letter-spacing: 0.15em;
+    text-shadow: 1px -1px 0 #ffe4e4, -1px 2px 1px #ffdcdc, -2px 4px 1px #ffc9c9, -3px 6px 1px #ffc5c5, -4px 8px 1px #ffa9a9, -5px 10px 1px #ffb6b6,  -28px 56px 1px #f5f5f5f5, -29px 58px 1px #f5f5f5;
 }

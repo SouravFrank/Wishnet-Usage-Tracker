@@ -36,11 +36,11 @@
 }
 
 .bar.download {
-  background-color: #2196f3; /* Blue for download */
+  background-color: #800303;
 }
 
 .bar.upload {
-  background-color: #4caf50; /* Green for upload */
+  background-color: #ff6767;
 }
 
 .legend {
@@ -62,9 +62,9 @@
 }
 
 .legend-color.download {
-  background-color: #2196f3;
+  background-color: #800303;
 }
 
 .legend-color.upload {
-  background-color: #4caf50;
+  background-color: #ff6767;
 }
