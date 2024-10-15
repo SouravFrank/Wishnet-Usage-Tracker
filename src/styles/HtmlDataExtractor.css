@@ -17,16 +17,10 @@ body {
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-      /* margin: 10px; */
-      width: 100%;
-  /* max-width: 800px;
-  margin: 0 auto;
-  padding: 1rem; Reduced padding */
-
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .title {
@@ -37,13 +31,6 @@ body {
 }
 
 .card {
-  /* background-color: var(--card-background);
-  border-radius: 4px;
-  box-shadow: 0 2px 4px var(--shadow-color);
-  padding: 1rem; 
-  margin-bottom: 1rem; 
-  width: 100%;
-  margin: 0; */
   display: flex;
   flex-direction: column;
   width: calc(100% - 30px);
