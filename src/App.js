@@ -8,6 +8,7 @@ function App() {
   const [apiFailed, setApiFailed] = useState(false);
   const [message, setMessage] = useState('');
   const [showSnackbar, setShowSnackbar] = useState(false);
+  const [showManualInput, setShowManualInput] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,7 +38,20 @@ function App() {
   return (
     <div className="App">
       <h1 className='elegantshadow'>Wishnet Usage Tracker</h1>
-      {apiFailed && <HtmlDataExtractor setReload={setReload} />}
+      
+      <div className="toggle-container">
+        <label className="toggle">
+          <input
+            type="checkbox"
+            checked={showManualInput}
+            onChange={() => setShowManualInput(!showManualInput)}
+          />
+          <span className="slider"></span>
+          <span className="label">Manual Input</span>
+        </label>
+      </div>
+
+      {(apiFailed || showManualInput) && <HtmlDataExtractor setReload={setReload} />}
       {reload ? (
         <div className='loader-container'><span className="loader" /></div>
       ) : (
