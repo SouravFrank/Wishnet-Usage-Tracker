@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import HtmlDataExtractor from './components/HtmlDataExtractor';
 import DataUsageChart from './components/DataUsageChart';
+import RotationBanner from './components/RotationBanner';
 import './styles/App.css';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
   const [message, setMessage] = useState('');
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [showManualInput, setShowManualInput] = useState(false);
+  const [showRotationBanner, setShowRotationBanner] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,8 +37,29 @@ function App() {
     }
   }, [reload]);
 
+  useEffect(() => {
+    const lockOrientation = async () => {
+      try {
+        if (typeof window !== 'undefined' && window.screen && window.screen.orientation) {
+          await window.screen.orientation.lock('landscape');
+        }
+      } catch (error) {
+        console.log('Orientation lock failed:', error);
+      }
+    };
+
+    const isMobile = typeof window !== 'undefined' && /Mobi|Android/i.test(window.navigator.userAgent);
+    
+    if (isMobile) {
+      lockOrientation();
+    }
+  }, []);
+
   return (
     <div className="App">
+      {showRotationBanner && typeof window !== 'undefined' && /Mobi|Android/i.test(window.navigator.userAgent) && (
+        <RotationBanner onClose={() => setShowRotationBanner(false)} />
+      )}
       <h1 className='elegantshadow'>Wishnet Usage Tracker</h1>
       
       <div className="toggle-container">

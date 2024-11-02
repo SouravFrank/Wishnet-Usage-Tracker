@@ -750,10 +750,16 @@
     "upload": 540.924
   },
   {
+    "loginTime": "02-11-2024 07:10:31",
+    "sessionTime": "08:59:58",
+    "download": 1242.358,
+    "upload": 212.176
+  },
+  {
     "loginTime": "01-11-2024 21:10:28",
-    "sessionTime": "02:30:01",
-    "download": 869.078,
-    "upload": 67.855
+    "sessionTime": "10:00:00",
+    "download": 3860.17,
+    "upload": 267.625
   },
   {
     "loginTime": "01-11-2024 19:13:20",

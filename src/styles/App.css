@@ -182,3 +182,35 @@ h1.elegantshadow {
 .toggle:hover .label {
   color: var(--primary-color);
 }
+
+/* Add to your existing CSS */
+@media screen and (max-width: 768px) {
+  body {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+
+  .App {
+    padding: 10px;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+
+  h1.elegantshadow {
+    font-size: 32px;
+    margin: 10px 0;
+  }
+}
+
+/* Force landscape mode */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  .App {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    width: 100vh;
+    height: 100vw;
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+}
