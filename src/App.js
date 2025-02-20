@@ -3,39 +3,13 @@ import HtmlDataExtractor from './components/HtmlDataExtractor';
 import DataUsageChart from './components/DataUsageChart';
 import RotationBanner from './components/RotationBanner';
 import './styles/App.css';
+import { useFetchData } from './hooks/useFetchData';
 
 function App() {
-  const [reload, setReload] = useState(true);
-  const [apiFailed, setApiFailed] = useState(false);
-  const [message, setMessage] = useState('');
-  const [showSnackbar, setShowSnackbar] = useState(false);
+  const { reload, setReload, apiFailed, message, showSnackbar, setShowSnackbar, data } = useFetchData(true);
+
   const [showManualInput, setShowManualInput] = useState(false);
   const [showRotationBanner, setShowRotationBanner] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/api/fetchWishnetData");
-        const data = await response.json();
-        
-        if (!response.ok) {
-          throw new Error(data.error || data.details || 'Backend API failed');
-        }
-        
-        setApiFailed(false);
-      } catch (error) {
-        console.error("API call failed:", error);
-        setApiFailed(true);
-        setMessage(error.message);
-        setShowSnackbar(true);
-      }
-      setReload(false);
-    };
-
-    if (reload) {
-      fetchData();
-    }
-  }, [reload]);
 
   useEffect(() => {
     const lockOrientation = async () => {
@@ -49,7 +23,7 @@ function App() {
     };
 
     const isMobile = typeof window !== 'undefined' && /Mobi|Android/i.test(window.navigator.userAgent);
-    
+
     if (isMobile) {
       lockOrientation();
     }
@@ -61,7 +35,7 @@ function App() {
         <RotationBanner onClose={() => setShowRotationBanner(false)} />
       )}
       <h1 className='elegantshadow'>Wishnet Usage Tracker</h1>
-      
+
       <div className="toggle-container">
         <label className="toggle">
           <input
@@ -78,7 +52,7 @@ function App() {
       {reload ? (
         <div className='loader-container'><span className="loader" /></div>
       ) : (
-        !apiFailed && <DataUsageChart />
+        !apiFailed && <DataUsageChart data={data} />
       )}
       {showSnackbar && (
         <div className="snackbar">
