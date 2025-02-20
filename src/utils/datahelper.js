@@ -3,7 +3,6 @@ export const parseDate = (dateString) => {
     const [day, month, year] = date.split('-');
     return new Date(year, month - 1, day, ...time.split(':'));
 };
-
 // Parse login time string to Date object
 function parseLoginTime(loginTime) {
     const [datePart, timePart] = loginTime.split(' ');
@@ -34,7 +33,7 @@ function formatTime(date) {
     return `${hours}:${minutes}:${seconds}`;
 }
 
-// Merge overlapping time ranges
+// Merge overlapping time ranges or ranges with gap < 60 seconds
 function mergeTimeRanges(ranges) {
     if (!ranges.length) return [];
     ranges.sort((a, b) => a[0] - b[0]);
@@ -42,7 +41,7 @@ function mergeTimeRanges(ranges) {
     for (let i = 1; i < ranges.length; i++) {
         const last = merged[merged.length - 1];
         const current = ranges[i];
-        if (last[1] >= current[0]) {
+        if (current[0] < last[1] + 60000) {
             last[1] = Math.max(last[1], current[1]);
         } else {
             merged.push(current);
@@ -51,23 +50,41 @@ function mergeTimeRanges(ranges) {
     return merged;
 }
 
-// Get missed session times
+// Get missed session times as human-readable durations, ignoring gaps < 60 seconds
 function getMissedSessions(dayStart, dayEnd, sessionRanges) {
     const missed = [];
     let lastEnd = dayStart;
     sessionRanges.forEach(range => {
-        if (lastEnd < range[0]) {
-            missed.push([lastEnd, range[0]]);
+        const gapDuration = range[0] - lastEnd;
+        if (gapDuration >= 60000) { // 60,000 ms = 60 seconds
+            missed.push(gapDuration);
         }
         lastEnd = Math.max(lastEnd, range[1]);
     });
-    if (lastEnd < dayEnd) {
-        missed.push([lastEnd, dayEnd]);
+    const finalGap = dayEnd - lastEnd;
+    if (finalGap >= 60000) {
+        missed.push(finalGap);
     }
-    return missed;
+
+    // Convert milliseconds to human-readable duration
+    return missed.map(duration => {
+        const totalMinutes = Math.floor(duration / 60000); // Convert ms to minutes
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+
+        let durationStr = '';
+        if (hours > 0) {
+            durationStr += `${hours} hour${hours > 1 ? 's' : ''}`;
+        }
+        if (minutes > 0) {
+            if (durationStr) durationStr += ' ';
+            durationStr += `${minutes} minute${minutes > 1 ? 's' : ''}`;
+        }
+        return durationStr || '0 minutes'; // Fallback, though unlikely with >= 60s filter
+    });
 }
 
-// Main function to calculate daily data usage with session and missed session times
+// Main function to calculate daily data usage
 export function calculateDailyData(sessions) {
     const dailyData = {};
 
@@ -123,36 +140,40 @@ export function calculateDailyData(sessions) {
 
     // Convert to the requested format
     const result = Object.entries(dailyData).map(([date, data]) => {
-        const dayStart = new Date(date.split('-').reverse().join('-')).getTime();
+        const dayStart = parseLoginTime(`${date} 00:00:00`).getTime();
         const dayEnd = dayStart + 86400000 - 1;
 
         // Merge session ranges
         const mergedSessions = mergeTimeRanges(data.sessionRanges);
 
-        // Get missed session ranges
-        const missedSessions = getMissedSessions(dayStart, dayEnd, mergedSessions);
-
-        // Format session and missed session times
+        // Format session times
         const sessionTime = mergedSessions.map(range => {
             const start = new Date(range[0]);
             const end = new Date(range[1]);
             return `${formatTime(start)} - ${formatTime(end)}`;
         }).join(', ');
 
-        const missedSession = missedSessions.map(range => {
-            const start = new Date(range[0]);
-            const end = new Date(range[1]);
-            return `${formatTime(start)} - ${formatTime(end)}`;
-        }).join(', ');
+        // Get missed session durations
+        const missedSessions = getMissedSessions(dayStart, dayEnd, mergedSessions);
+        const missedSession = missedSessions.length > 0 ? missedSessions.join(', ') : "No missed sessions";
 
         return {
             date,
             sessionTime: sessionTime || "No sessions",
-            missedSession: missedSession || "No missed sessions",
-            download: data.download.toFixed(3),
-            upload: data.upload.toFixed(3)
+            missedSession,
+            download: Number(data.download.toFixed(3)),
+            upload: Number(data.upload.toFixed(3))
         };
-    }).sort((a, b) => a.date.localeCompare(b.date));
+    });
+
+    // Sort by date correctly (converting DD-MM-YYYY to comparable format)
+    result.sort((a, b) => {
+        const [dayA, monthA, yearA] = a.date.split('-').map(Number);
+        const [dayB, monthB, yearB] = b.date.split('-').map(Number);
+        const dateA = new Date(yearA, monthA - 1, dayA);
+        const dateB = new Date(yearB, monthB - 1, dayB);
+        return dateA - dateB;
+    });
 
     return result;
 }

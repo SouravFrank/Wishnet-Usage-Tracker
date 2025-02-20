@@ -19,7 +19,7 @@ const DataUsageChart = ({ data }) => {
   return (
     <div>
       <DateFilter onFilterChange={handleFilterChange} />
-      <ChartComponent data={filteredData} />
+      <ChartComponent data={filteredData} timeGranularity="session" />
     </div>
   );
 };

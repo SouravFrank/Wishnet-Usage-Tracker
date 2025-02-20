@@ -9,6 +9,7 @@ export const useFetchData = (initialReload = true) => {
     const [message, setMessage] = useState('');
     const [showSnackbar, setShowSnackbar] = useState(false);
     const [data, setData] = useState([]);
+    const [dailyData, setDailyData] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -20,11 +21,8 @@ export const useFetchData = (initialReload = true) => {
                     throw new Error(data.error || data.details || 'Backend API failed');
                 }
                 const sortedData = data.sort((a, b) => parseDate(a.loginTime) - parseDate(b.loginTime));
-                try {
-                    console.log("🚀 ~ fetchData ~ sortedData:", calculateDailyData(sortedData))
-                } catch (error) {
-                    console.log("🚀 ~ fetchData ~ error:", error)
-                }
+                const dailyData = calculateDailyData(sortedData);
+                setDailyData(dailyData);
                 setData(sortedData);
                 setApiFailed(false);
             } catch (error) {
@@ -41,5 +39,5 @@ export const useFetchData = (initialReload = true) => {
         }
     }, [reload]);
 
-    return { reload, setReload, apiFailed, message, showSnackbar, setShowSnackbar, data };
+    return { reload, setReload, apiFailed, message, showSnackbar, setShowSnackbar, data, dailyData };
 };

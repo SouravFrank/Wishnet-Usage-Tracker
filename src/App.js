@@ -4,9 +4,10 @@ import DataUsageChart from './components/DataUsageChart';
 import RotationBanner from './components/RotationBanner';
 import './styles/App.css';
 import { useFetchData } from './hooks/useFetchData';
+import ChartComponent from './components/ChartComponent';
 
 function App() {
-  const { reload, setReload, apiFailed, message, showSnackbar, setShowSnackbar, data } = useFetchData(true);
+  const { reload, setReload, apiFailed, message, showSnackbar, setShowSnackbar, data, dailyData } = useFetchData(true);
 
   const [showManualInput, setShowManualInput] = useState(false);
   const [showRotationBanner, setShowRotationBanner] = useState(true);
@@ -52,7 +53,10 @@ function App() {
       {reload ? (
         <div className='loader-container'><span className="loader" /></div>
       ) : (
-        !apiFailed && <DataUsageChart data={data} />
+        !apiFailed && <>
+          <DataUsageChart data={data} />
+          <ChartComponent data={dailyData} />
+        </>
       )}
       {showSnackbar && (
         <div className="snackbar">
