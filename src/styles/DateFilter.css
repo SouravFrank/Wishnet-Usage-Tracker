@@ -1,0 +1,46 @@
+/* DateFilter.css */
+
+.date-filter {
+    background-color: var(--card-background);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    padding: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .date-filter input[type="date"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #fff;
+  }
+  
+  .date-filter select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #fff;
+    min-width: 120px;
+  }
+  
+  .date-filter button {
+    padding: 8px 15px;
+    background-color: #800303;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .date-filter button:hover {
+    background-color: #ff6767;
+  }
