@@ -55,7 +55,25 @@ const ChartComponent = ({ data, timeGranularity = 'daily' }) => {
                 return timeString;
         }
     };
-
+    // Add this to your existing ChartComponent.jsx file
+    // I'm assuming you have a ChartComponent that uses a charting library
+    
+    // Update the formatXAxis function or equivalent in your ChartComponent
+    const formatXAxis = (dateStr, dateFormat) => {
+      const date = new Date(dateStr);
+      if (dateFormat === "DD/MM") {
+        return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+      }
+      // Add other format options as needed
+      return dateStr;
+    };
+    
+    // Then in your render or chart configuration:
+    // xAxis: {
+    //   ...
+    //   tickFormatter: (value) => formatXAxis(value, props.dateFormat || "default"),
+    //   ...
+    // }
     // Custom tooltip content
     const CustomTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
@@ -72,9 +90,7 @@ const ChartComponent = ({ data, timeGranularity = 'daily' }) => {
         }
         return null;
     };
-
     const normalizedData = normalizeData(data);
-
     return (
         <div className="chart-container">
             <h2 className="chart-title">Data Usage Chart ({timeGranularity.charAt(0).toUpperCase() + timeGranularity.slice(1)})</h2>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import HtmlDataExtractor from './components/HtmlDataExtractor';
 import DataUsageChart from './components/DataUsageChart';
 import RotationBanner from './components/RotationBanner';
+import MonthlyUsageChart from './components/MonthlyUsageChart';
 import './styles/App.css';
 import { useFetchData } from './hooks/useFetchData';
 import ChartComponent from './components/ChartComponent';
@@ -56,6 +57,7 @@ function App() {
         !apiFailed && <>
           <DataUsageChart data={data} />
           <ChartComponent data={dailyData} />
+          <MonthlyUsageChart data={data} />
         </>
       )}
       {showSnackbar && (
