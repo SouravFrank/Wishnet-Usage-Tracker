@@ -39,14 +39,9 @@ app.get('/api/fetchWishnetData', async (req, res) => {
 
     const htmlContent = await response.text();
 
-    console.log("🚀 ~ server.js:42 ~ app.get ~ htmlContent:", htmlContent);
-
     // Parse the HTML content to extract usage data
     // This is similar to what HtmlDataExtractor does in the frontend
     const usageData = parseHtmlContent(htmlContent);
-
-    console.log("🚀 ~ server.js:48 ~ app.get ~ usageData:", usageData);
-
 
     if (!usageData || usageData.length === 0) {
       throw new Error('No usage data found in the response');
@@ -133,6 +128,7 @@ function mergeData(existingData, newData) {
 
 app.get('/api/usageData', async (req, res) => {
   try {
+    await fetch('http://localhost:8080/api/fetchWishnetData')
     const data = await fs.readFile(dataFilePath, 'utf8');
     const jsonData = JSON.parse(data);
     const sortedData = jsonData.sort((a, b) => new Date(b.loginTime) - new Date(a.loginTime));
