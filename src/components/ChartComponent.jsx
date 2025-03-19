@@ -2,7 +2,7 @@ import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import '../styles/DataUsageChart.css';
 
-const ChartComponent = ({ data, timeGranularity = 'daily' }) => {
+const ChartComponent = ({ data, timeGranularity = 'daily', dateFormat }) => {
     // Utility function to normalize data based on structure
     const normalizeData = (rawData) => {
         return rawData.map(item => {
@@ -36,6 +36,30 @@ const ChartComponent = ({ data, timeGranularity = 'daily' }) => {
         return `${value.toFixed(1)} MB`;
     };
 
+    // Format X-axis labels based on date format
+    const formatXAxis = (dateStr) => {
+        if (!dateStr) return '';
+        
+        try {
+            const date = new Date(dateStr);
+            
+            if (isNaN(date.getTime())) return dateStr;
+            
+            if (dateFormat === "DD/MM") {
+                return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+            } else if (dateFormat === "MM/DD") {
+                return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`;
+            } else if (dateFormat === "DD/MM/YY") {
+                return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear().toString().slice(-2)}`;
+            }
+            
+            // If no specific format is requested, use the existing formatTimeKey function
+            return formatTimeKey(dateStr);
+        } catch (error) {
+            console.error("Error formatting date:", error);
+            return dateStr;
+        }
+    };
     // Format time key based on granularity
     const formatTimeKey = (timeString) => {
         switch (timeGranularity) {
@@ -48,7 +72,7 @@ const ChartComponent = ({ data, timeGranularity = 'daily' }) => {
                 return `Week of ${timeString}`; // Placeholder for weekly format
             case 'monthly':
                 {
-                    const [_, month, year] = timeString.split('-');
+                    const [, month, year] = timeString.split('-');
                     return ` ${month} ${year}`;
                 }
             default:
@@ -59,14 +83,14 @@ const ChartComponent = ({ data, timeGranularity = 'daily' }) => {
     // I'm assuming you have a ChartComponent that uses a charting library
     
     // Update the formatXAxis function or equivalent in your ChartComponent
-    const formatXAxis = (dateStr, dateFormat) => {
-      const date = new Date(dateStr);
-      if (dateFormat === "DD/MM") {
-        return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}`;
-      }
-      // Add other format options as needed
-      return dateStr;
-    };
+    // const formatXAxis = (dateStr, dateFormat) => {
+    //   const date = new Date(dateStr);
+    //   if (dateFormat === "DD/MM") {
+    //     return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+    //   }
+    //   // Add other format options as needed
+    //   return dateStr;
+    // };
     
     // Then in your render or chart configuration:
     // xAxis: {
@@ -91,6 +115,7 @@ const ChartComponent = ({ data, timeGranularity = 'daily' }) => {
         return null;
     };
     const normalizedData = normalizeData(data);
+    
     return (
         <div className="chart-container">
             <h2 className="chart-title">Data Usage Chart ({timeGranularity.charAt(0).toUpperCase() + timeGranularity.slice(1)})</h2>
@@ -99,7 +124,7 @@ const ChartComponent = ({ data, timeGranularity = 'daily' }) => {
                     <CartesianGrid strokeDasharray="3 2" />
                     <XAxis
                         dataKey="timeKey"
-                        tickFormatter={formatTimeKey}
+                        tickFormatter={formatXAxis}
                         tick={{ angle: 0, textAnchor: 'middle', fontSize: 14 }}
                     />
                     <YAxis

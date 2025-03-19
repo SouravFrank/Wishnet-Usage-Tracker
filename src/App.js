@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import HtmlDataExtractor from './components/HtmlDataExtractor';
 import DataUsageChart from './components/DataUsageChart';
 import RotationBanner from './components/RotationBanner';
-import MonthlyUsageChart from './components/MonthlyUsageChart';
 import './styles/App.css';
 import { useFetchData } from './hooks/useFetchData';
 import ChartComponent from './components/ChartComponent';
 
 function App() {
-  const { reload, setReload, apiFailed, message, showSnackbar, setShowSnackbar, data, dailyData } = useFetchData(true);
+  const { reload, setReload, apiFailed, message, showSnackbar, setShowSnackbar, data, dailyData, monthlyData } =
+    useFetchData(true);
 
   const [showManualInput, setShowManualInput] = useState(false);
   const [showRotationBanner, setShowRotationBanner] = useState(true);
@@ -32,38 +32,38 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className='App'>
       {showRotationBanner && typeof window !== 'undefined' && /Mobi|Android/i.test(window.navigator.userAgent) && (
         <RotationBanner onClose={() => setShowRotationBanner(false)} />
       )}
       <h1 className='elegantshadow'>Wishnet Usage Tracker</h1>
 
-      <div className="toggle-container">
-        <label className="toggle">
-          <input
-            type="checkbox"
-            checked={showManualInput}
-            onChange={() => setShowManualInput(!showManualInput)}
-          />
-          <span className="slider"></span>
-          <span className="label">Manual Input</span>
+      <div className='toggle-container'>
+        <label className='toggle'>
+          <input type='checkbox' checked={showManualInput} onChange={() => setShowManualInput(!showManualInput)} />
+          <span className='slider'></span>
+          <span className='label'>Manual Input</span>
         </label>
       </div>
 
       {(apiFailed || showManualInput) && <HtmlDataExtractor setReload={setReload} />}
       {reload ? (
-        <div className='loader-container'><span className="loader" /></div>
+        <div className='loader-container'>
+          <span className='loader' />
+        </div>
       ) : (
-        !apiFailed && <>
-          <DataUsageChart data={data} />
-          <ChartComponent data={dailyData} />
-          <MonthlyUsageChart data={data} />
-        </>
+        !apiFailed && (
+          <>
+            <DataUsageChart data={data} />
+            <ChartComponent data={dailyData} timeGranularity='daily' />
+            <ChartComponent data={monthlyData} timeGranularity='monthly' />
+          </>
+        )
       )}
       {showSnackbar && (
-        <div className="snackbar">
+        <div className='snackbar'>
           {message}
-          <button className="snackbar-close" onClick={() => setShowSnackbar(false)}>
+          <button className='snackbar-close' onClick={() => setShowSnackbar(false)}>
             &times;
           </button>
         </div>

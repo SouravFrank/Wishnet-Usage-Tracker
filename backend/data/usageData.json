@@ -2875,8 +2875,38 @@
   },
   {
     "loginTime": "18-03-2025 15:45:45",
-    "sessionTime": "08:30:00",
-    "download": 9645.339,
-    "upload": 1143.263
+    "sessionTime": "10:00:00",
+    "download": 12722.208,
+    "upload": 1364.903
+  },
+  {
+    "loginTime": "19-03-2025 09:12:35",
+    "sessionTime": "02:49:48",
+    "download": 2021.414,
+    "upload": 227.165
+  },
+  {
+    "loginTime": "19-03-2025 01:45:47",
+    "sessionTime": "07:12:46",
+    "download": 2030.331,
+    "upload": 374.043
+  },
+  {
+    "loginTime": "19-03-2025 15:30:00",
+    "sessionTime": "03:00:00",
+    "download": 3615.748,
+    "upload": 346.731
+  },
+  {
+    "loginTime": "19-03-2025 13:34:43",
+    "sessionTime": "00:15:47",
+    "download": 196.59,
+    "upload": 75.212
+  },
+  {
+    "loginTime": "19-03-2025 13:05:53",
+    "sessionTime": "00:28:28",
+    "download": 69.567,
+    "upload": 25.251
   }
 ]
