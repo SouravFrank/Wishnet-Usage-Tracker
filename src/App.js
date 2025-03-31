@@ -4,10 +4,9 @@ import DataUsageChart from './components/DataUsageChart';
 import RotationBanner from './components/RotationBanner';
 import './styles/App.css';
 import { useFetchData } from './hooks/useFetchData';
-import ChartComponent from './components/ChartComponent';
 
 function App() {
-  const { reload, setReload, apiFailed, message, showSnackbar, setShowSnackbar, data, dailyData, monthlyData } =
+  const { reload, setReload, apiFailed, message, showSnackbar, setShowSnackbar, data, dailyData, monthlyData, usageData } =
     useFetchData(true);
 
   const [showManualInput, setShowManualInput] = useState(false);
@@ -53,11 +52,24 @@ function App() {
         </div>
       ) : (
         !apiFailed && (
-          <>
-            <DataUsageChart data={data} />
-            <ChartComponent data={dailyData} timeGranularity='daily' />
-            <ChartComponent data={monthlyData} timeGranularity='monthly' />
-          </>
+          <div className="chart-grid">
+            <div className="chart-container">
+              <h3>Raw Session Data</h3>
+              <DataUsageChart data={data} timeGranularity="session" />
+            </div>
+            <div className="chart-container">
+              <h3>Daily Totals</h3>
+              <DataUsageChart data={dailyData} timeGranularity="daily" />
+            </div>
+            <div className="chart-container">
+              <h3>Weekly Totals (Sunday Start)</h3>
+              <DataUsageChart data={data} timeGranularity="weekly" />
+            </div>
+            <div className="chart-container">
+              <h3>Monthly Totals</h3>
+              <DataUsageChart data={monthlyData} timeGranularity="monthly" />
+            </div>
+          </div>
         )
       )}
       {showSnackbar && (

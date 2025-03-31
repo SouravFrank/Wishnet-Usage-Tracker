@@ -2,8 +2,9 @@ import React, { useState, useEffect, useMemo } from 'react';
 import ChartComponent from './ChartComponent';
 import DateFilter from './DateFilter';
 import { parseDate } from '../utils/datahelper';
+import PropTypes from 'prop-types';
 
-const DataUsageChart = ({ data }) => {
+const DataUsageChart = ({ data = [], timeGranularity = 'daily' }) => {
   const [filteredData, setFilteredData] = useState(data);
 
   // Find the earliest date in the data
@@ -33,11 +34,14 @@ const DataUsageChart = ({ data }) => {
   }, [data, minDate]);
 
   const handleFilterChange = ({ startDate, endDate }) => {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
+    const start = parseDate(startDate);
+    const end = parseDate(endDate);
+    
+    if (isNaN(start) || isNaN(end)) return;
+
     const filtered = data.filter(item => {
       const itemDate = parseDate(item.loginTime);
-      return itemDate >= start && itemDate <= end;
+      return !isNaN(itemDate) && itemDate >= start && itemDate <= end;
     });
     setFilteredData(filtered);
   };
@@ -47,11 +51,16 @@ const DataUsageChart = ({ data }) => {
       <DateFilter onFilterChange={handleFilterChange} minDate={minDate} />
       <ChartComponent 
         data={filteredData} 
-        timeGranularity="session" 
+        timeGranularity={timeGranularity}
         dateFormat="DD/MM" 
       />
     </div>
   );
+};
+
+DataUsageChart.propTypes = {
+  data: PropTypes.array,
+  timeGranularity: PropTypes.oneOf(['session', 'daily', 'weekly', 'monthly'])
 };
 
 export default DataUsageChart;

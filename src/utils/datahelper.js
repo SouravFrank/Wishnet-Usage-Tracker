@@ -1,14 +1,24 @@
 export const parseDate = (dateString) => {
+    if (!dateString) return null;
     const [date, time] = dateString.split(' ');
+    if (!date || !time) return null;
     const [day, month, year] = date.split('-');
     return new Date(year, month - 1, day, ...time.split(':'));
 };
+
 // Parse login time string to Date object
 function parseLoginTime(loginTime) {
     const [datePart, timePart] = loginTime.split(' ');
     const [day, month, year] = datePart.split('-').map(Number);
     const [hour, minute, second] = timePart.split(':').map(Number);
-    return new Date(year, month - 1, day, hour, minute, second);
+    
+    // Validate date components
+    if (month < 1 || month > 12 || day < 1 || day > 31 || year < 2000) {
+        throw new Error(`Invalid date format: ${loginTime}`);
+    }
+    
+    // Use UTC to avoid timezone issues
+    return new Date(Date.UTC(year, month - 1, day, hour, minute, second));
 }
 
 // Convert session time (HH:MM:SS) to milliseconds
@@ -19,9 +29,16 @@ function parseSessionTime(sessionTime) {
 
 // Get date string in DD-MM-YYYY format
 function getDateString(date) {
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
+    // Convert to UTC date
+    const utcDate = new Date(Date.UTC(
+        date.getUTCFullYear(),
+        date.getUTCMonth(),
+        date.getUTCDate()
+    ));
+    
+    const day = String(utcDate.getUTCDate()).padStart(2, '0');
+    const month = String(utcDate.getUTCMonth() + 1).padStart(2, '0');
+    const year = utcDate.getUTCFullYear();
     return `${day}-${month}-${year}`;
 }
 
@@ -88,14 +105,17 @@ function getMissedSessions(dayStart, dayEnd, sessionRanges) {
 export function calculateDailyData(sessions) {
     const dailyData = {};
 
-    // Process each session
     sessions.forEach(session => {
         const startTime = parseLoginTime(session.loginTime);
         const duration = parseSessionTime(session.sessionTime);
         const endTime = new Date(startTime.getTime() + duration);
 
-        // Start at the beginning of the session's first day
-        let currentDate = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate(), 0, 0, 0);
+        // Use UTC for day calculations
+        let currentDate = new Date(Date.UTC(
+            startTime.getUTCFullYear(),
+            startTime.getUTCMonth(),
+            startTime.getUTCDate()
+        ));
         const endDateStr = getDateString(endTime);
 
         // Iterate over all days the session covers
@@ -134,7 +154,7 @@ export function calculateDailyData(sessions) {
             }
 
             // Move to the next day
-            currentDate.setDate(currentDate.getDate() + 1);
+            currentDate.setUTCDate(currentDate.getUTCDate() + 1);
         }
     });
 
