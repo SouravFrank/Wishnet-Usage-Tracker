@@ -99,6 +99,7 @@ const DataUsageChart = ({ data = [], timeGranularity = 'daily' }) => {
         initialEndDate={filterEndDate}
         minDate={dateRange.minDate}
         maxDate={dateRange.maxDate}
+        timeGranularity={timeGranularity}
       />
       <ChartComponent 
         data={filteredData} 
@@ -111,7 +112,7 @@ const DataUsageChart = ({ data = [], timeGranularity = 'daily' }) => {
 
 DataUsageChart.propTypes = {
   data: PropTypes.array,
-  timeGranularity: PropTypes.oneOf(['session', 'daily', 'weekly', 'monthly'])
+  timeGranularity: PropTypes.oneOf(['session', 'daily', 'weekly', 'monthly']).isRequired
 };
 
 export default React.memo(DataUsageChart);
