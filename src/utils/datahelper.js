@@ -1,24 +1,62 @@
+// Parse custom date format (DD-MM-YYYY HH:mm:ss)
+export const parseCustomDate = (dateString) => {
+    if (!dateString) return null;
+    
+    try {
+        // Handle custom format (DD-MM-YYYY HH:mm:ss)
+        if (dateString.includes('-')) {
+            const [date, time] = dateString.split(' ');
+            if (!date) return null;
+            
+            const [day, month, year] = date.split('-');
+            const timeComponents = time ? time.split(':').map(Number) : [0, 0, 0];
+            
+            return new Date(
+                parseInt(year),
+                parseInt(month) - 1,
+                parseInt(day),
+                ...timeComponents
+            );
+        }
+        
+        // Handle ISO format
+        return new Date(dateString);
+    } catch (error) {
+        console.error("Error parsing date:", error);
+        return null;
+    }
+};
+
+// Parse date string to handle both ISO and custom formats
 export const parseDate = (dateString) => {
     if (!dateString) return null;
-    const [date, time] = dateString.split(' ');
-    if (!date || !time) return null;
-    const [day, month, year] = date.split('-');
-    return new Date(year, month - 1, day, ...time.split(':'));
+    
+    const date = parseCustomDate(dateString);
+    if (!date || isNaN(date.getTime())) {
+        console.error("Invalid date format:", dateString);
+        return null;
+    }
+    
+    return date;
+};
+
+// Format date to custom format (DD-MM-YYYY HH:mm:ss)
+export const formatCustomDate = (date) => {
+    if (!date || isNaN(date.getTime())) return '';
+    
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    
+    return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
 };
 
 // Parse login time string to Date object
 function parseLoginTime(loginTime) {
-    const [datePart, timePart] = loginTime.split(' ');
-    const [day, month, year] = datePart.split('-').map(Number);
-    const [hour, minute, second] = timePart.split(':').map(Number);
-    
-    // Validate date components
-    if (month < 1 || month > 12 || day < 1 || day > 31 || year < 2000) {
-        throw new Error(`Invalid date format: ${loginTime}`);
-    }
-    
-    // Use UTC to avoid timezone issues
-    return new Date(Date.UTC(year, month - 1, day, hour, minute, second));
+    return parseCustomDate(loginTime);
 }
 
 // Convert session time (HH:MM:SS) to milliseconds
@@ -29,21 +67,18 @@ function parseSessionTime(sessionTime) {
 
 // Get date string in DD-MM-YYYY format
 function getDateString(date) {
-    // Convert to UTC date
-    const utcDate = new Date(Date.UTC(
-        date.getUTCFullYear(),
-        date.getUTCMonth(),
-        date.getUTCDate()
-    ));
+    if (!date || isNaN(date.getTime())) return '';
     
-    const day = String(utcDate.getUTCDate()).padStart(2, '0');
-    const month = String(utcDate.getUTCMonth() + 1).padStart(2, '0');
-    const year = utcDate.getUTCFullYear();
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
     return `${day}-${month}-${year}`;
 }
 
 // Format time in HH:MM:SS
 function formatTime(date) {
+    if (!date || isNaN(date.getTime())) return '';
+    
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const seconds = String(date.getSeconds()).padStart(2, '0');

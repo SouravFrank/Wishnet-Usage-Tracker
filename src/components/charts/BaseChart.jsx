@@ -13,8 +13,9 @@ const BaseChart = ({ data, timeGranularity, dateFormat, title }) => {
                     <CartesianGrid strokeDasharray="3 2" />
                     <XAxis
                         dataKey="timeKey"
-                        tickFormatter={(value) => formatDate(value, dateFormat)}
-                        tick={{ angle: 0, textAnchor: 'middle', fontSize: 14 }}
+                        tickFormatter={(value) => formatDate(value, dateFormat, timeGranularity)}
+                        tick={{ angle: timeGranularity === 'session' ? -45 : 0, textAnchor: 'end', fontSize: 12 }}
+                        height={60}
                     />
                     <YAxis
                         label={{ value: 'Data Usage (GB)', angle: -90, position: 'insideLeft', fontSize: 15 }}
