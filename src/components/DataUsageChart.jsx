@@ -5,6 +5,7 @@ import { parseDate } from '../utils/datahelper';
 import PropTypes from 'prop-types';
 
 const DataUsageChart = ({ data = [], timeGranularity = 'daily' }) => {
+  console.log(timeGranularity, " 🚀 ~ DataUsageChart ~ data:", data)
   const [filteredData, setFilteredData] = useState(data);
 
   // Find the earliest date in the data
@@ -63,4 +64,4 @@ DataUsageChart.propTypes = {
   timeGranularity: PropTypes.oneOf(['session', 'daily', 'weekly', 'monthly'])
 };
 
-export default DataUsageChart;
+export default React.memo(DataUsageChart);
