@@ -39,9 +39,9 @@ BaseChart.propTypes = {
         timeKey: PropTypes.string.isRequired,
         download: PropTypes.number.isRequired,
         upload: PropTypes.number.isRequired,
-        sessionTime: PropTypes.string.isRequired
+        sessionTime: PropTypes.string
     })).isRequired,
-    timeGranularity: PropTypes.oneOf(['session', 'daily', 'weekly', 'monthly']).isRequired,
+    timeGranularity: PropTypes.oneOf(['session', 'daily', 'monthly', 'weekly']).isRequired,
     dateFormat: PropTypes.string,
     title: PropTypes.string.isRequired
 };

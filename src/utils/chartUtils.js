@@ -1,3 +1,5 @@
+import { parseDate, formatToYYYYMMDD } from './datahelper';
+
 // Format data usage (MB to GB conversion)
 export const formatDataUsage = (value) => {
     if (value >= 1000) {
@@ -35,13 +37,21 @@ export const formatDate = (dateStr, format = "DD/MM", timeGranularity = 'daily')
     if (!dateStr) return '';
     
     try {
-        const date = parseCustomDate(dateStr);
-        if (!date) return dateStr;
+        // Attempt to parse the date. datahelper's parseDate handles multiple formats.
+        // We need the Date object to format it according to granularity.
+        const date = parseDate(dateStr);
+        if (!date || isNaN(date.getTime())) return dateStr; // Return original string if parsing fails
         
+        // Granularity-specific formatting
         if (timeGranularity === 'session') {
+            // Format: DD/MM HH:mm
             return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+        } else if (timeGranularity === 'monthly') {
+            // Format: YYYY-MM
+            return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
         }
         
+        // Fallback to format parameter for other cases (e.g., daily)
         switch (format) {
             case "DD/MM":
                 return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}`;
@@ -50,10 +60,11 @@ export const formatDate = (dateStr, format = "DD/MM", timeGranularity = 'daily')
             case "DD/MM/YY":
                 return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear().toString().slice(-2)}`;
             default:
-                return dateStr;
+                // If format is unrecognized, maybe return ISO date part?
+                return formatToYYYYMMDD(date); // Use the helper for YYYY-MM-DD
         }
     } catch (error) {
         console.error("Error formatting date:", error);
-        return dateStr;
+        return dateStr; // Return original string on error
     }
 };

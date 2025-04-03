@@ -44,7 +44,7 @@ ChartComponent.propTypes = {
     data: PropTypes.arrayOf(PropTypes.shape({
         loginTime: PropTypes.string,
         date: PropTypes.string,
-        sessionTime: PropTypes.string.isRequired,
+        sessionTime: PropTypes.string,
         missedSession: PropTypes.string,
         download: PropTypes.number.isRequired,
         upload: PropTypes.number.isRequired
