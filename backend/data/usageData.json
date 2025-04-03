@@ -72,6 +72,12 @@
     "upload": 857.599
   },
   {
+    "loginTime": "04-04-2025 02:16:26",
+    "sessionTime": "00:30:00",
+    "download": 314.594,
+    "upload": 60.545
+  },
+  {
     "loginTime": "12-10-2024 21:37:40",
     "sessionTime": "10:00:00",
     "download": 7432.196,
@@ -3133,9 +3139,9 @@
   },
   {
     "loginTime": "03-04-2025 16:16:24",
-    "sessionTime": "02:00:00",
-    "download": 2309.674,
-    "upload": 315.018
+    "sessionTime": "10:00:00",
+    "download": 13469.355,
+    "upload": 1617.813
   },
   {
     "loginTime": "03-04-2025 06:15:43",

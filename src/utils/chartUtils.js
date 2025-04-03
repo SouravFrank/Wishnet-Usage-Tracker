@@ -32,7 +32,6 @@ export const parseCustomDate = (dateStr) => {
 
 // Format date based on format string and granularity
 export const formatDate = (dateStr, format = "DD/MM", timeGranularity = 'daily') => {
-    console.log("🚀 ~ formatDate ~ dateStr:", dateStr, format, timeGranularity)
     if (!dateStr) return '';
     
     try {
@@ -40,19 +39,6 @@ export const formatDate = (dateStr, format = "DD/MM", timeGranularity = 'daily')
         if (!date) return dateStr;
         
         if (timeGranularity === 'session') {
-            // For session data, show time as well
-            console.log(
-                '%c[chartUtils.js:10] Session Date Format Debug:', 
-                'color: #2196F3; font-weight: bold',
-                '\n Input:', dateStr,
-                '\n Parsed Date:', date,
-                '\n Date Parts:', {
-                    day: date.getDate(),
-                    month: date.getMonth() + 1,
-                    hours: date.getHours(),
-                    minutes: date.getMinutes()
-                }
-            );
             return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
         }
         

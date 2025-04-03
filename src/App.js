@@ -61,14 +61,14 @@ function App() {
               <h3>Daily Totals</h3>
               <DataUsageChart data={dailyData} timeGranularity="daily" />
             </div>
-            {/* <div className="chart-container">
+            <div className="chart-container">
               <h3>Weekly Totals (Sunday Start)</h3>
-              <DataUsageChart data={data} timeGranularity="weekly" />
+              <DataUsageChart data={dailyData} timeGranularity="weekly" />
             </div>
             <div className="chart-container">
               <h3>Monthly Totals</h3>
               <DataUsageChart data={monthlyData} timeGranularity="monthly" />
-            </div> */}
+            </div>
           </div>
         )
       )}

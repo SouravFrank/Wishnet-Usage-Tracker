@@ -45,7 +45,6 @@ export const useFetchData = (initialReload = true) => {
 
     // 1. Temporal Aggregation with UTC
     const monthMap = new Map();
-    console.log('🚀 ~ useFetchData.js:106 ~ monthlyData ~ dailyData:', dailyData);
 
     for (const daily of dailyData) {
       // 2. Robust date validation
