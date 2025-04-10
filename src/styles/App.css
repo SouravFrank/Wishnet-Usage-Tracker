@@ -9,16 +9,13 @@
 }
 
 body {
-    font-family: 'Roboto', Arial, sans-serif;
+    font-family: 'Roboto, sans-serif';
     background-color: var(--background-color);
     color: var(--text-color);
     margin: 0;
     padding: 0;
+    transition: background-color 0.3s ease;
 }
-/* #d60606, #d00505, #cb0505, #c50505, #c00505, #bb0505, #b50505, #b00404, #ab0404, #a50404,
-#a00404, #9b0404, #950404, #900404, #8b0303, #850303, #800303, #7b0303, #750303, #700303,
-#6b0303, #650202, #600202, #5a0202, #550202, #500202, #4a0202, #450101, #400101, #3a0101 */
-/* #dd0606, #e40606, #eb0606, #f20606, #f80808, #f80f0f, #f81616, #f81d1d, #f82525, #f92c2c */
 
 .App {
     max-width: 1200px;
@@ -32,6 +29,12 @@ body {
     /* Stack components vertically */
     gap: 20px;
     /* Add gap between components */
+    animation: fadeIn 0.5s ease;  /* Fancy fade-in animation */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .loader-container {
@@ -117,8 +120,6 @@ h1.elegantshadow {
     text-shadow: 1px -1px 0 #ffe4e4, -1px 2px 1px #ffdcdc, -2px 4px 1px #ffc9c9, -3px 6px 1px #ffc5c5, -4px 8px 1px #ffa9a9, -5px 10px 1px #ffb6b6,  -28px 56px 1px #f5f5f5f5, -29px 58px 1px #f5f5f5;
 }
 
-/* Add after your existing styles */
-
 .toggle-container {
   align-self: flex-start;
 }
@@ -183,7 +184,6 @@ h1.elegantshadow {
   color: var(--primary-color);
 }
 
-/* Add to your existing CSS */
 @media screen and (max-width: 768px) {
   body {
     min-height: 100vh;
@@ -202,7 +202,6 @@ h1.elegantshadow {
   }
 }
 
-/* Force landscape mode */
 @media screen and (max-width: 768px) and (orientation: portrait) {
   .App {
     transform: rotate(-90deg);

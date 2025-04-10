@@ -1,13 +1,21 @@
 .chart-container {
   background-color: var(--card-background);
-  border-radius: 8px;
-  box-shadow: 0 2px 4px var(--shadow-color);
-  padding: 15px;
+  border-radius: 12px;  /* More modern radius */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);  /* Enhanced shadow */
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;  /* Add transitions for fancy effect */
+}
+
+.chart-container.fancy-chart:hover {
+  transform: scale(1.02);  /* Subtle scale on hover */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 .chart-title {
-  font-size: 1.5rem;
-  color: #333;
+  font-size: 1.6rem;
+  color: #800303;  /* Keep red */
+  font-family: 'Roboto, sans-serif';
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);  /* Fancy text shadow */
   margin-bottom: 15px;
 }
 
@@ -36,11 +44,13 @@
 }
 
 .bar.download {
-  background-color: #800303;
+  background-color: #800303;  /* Retain red */
+  transition: background-color 0.3s ease;
 }
 
 .bar.upload {
-  background-color: #ff6767;
+  background-color: #ff6767;  /* Retain red */
+  transition: background-color 0.3s ease;
 }
 
 .legend {
@@ -62,9 +72,9 @@
 }
 
 .legend-color.download {
-  background-color: #800303;
+  background-color: #800303;  /* Retain red */
 }
 
 .legend-color.upload {
-  background-color: #ff6767;
+  background-color: #ff6767;  /* Retain red */
 }

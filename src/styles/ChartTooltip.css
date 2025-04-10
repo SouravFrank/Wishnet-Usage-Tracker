@@ -1,0 +1,18 @@
+.modern-tooltip {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);  /* Modern shadow */
+  transition: opacity 0.3s ease, transform 0.3s ease;  /* Smooth transitions */
+  font-family: 'Roboto, sans-serif';
+  color: #333;
+}
+
+.modern-tooltip p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.modern-tooltip:hover {
+  transform: translateY(-2px);  /* Subtle lift on hover */
+}

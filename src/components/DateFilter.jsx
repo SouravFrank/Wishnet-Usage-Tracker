@@ -368,58 +368,45 @@ const DateFilter = ({
   const inputMaxDate = useMemo(() => maxDate ? formatToYYYYMMDD(maxDate) : '', [maxDate]);
 
   return (
-    <form onSubmit={handleSubmit} className="date-filter">
-      <div className="filter-section">
-        <label>Date Range:</label> {/* Changed Label */}
+    <div className="date-filter" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+      <form onSubmit={(e) => { e.preventDefault(); handleSubmit(e); onFilterChange({ relativeRange, startDate: inputStartDate, endDate: inputEndDate }); }} className="futuristic-form" style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
         <select 
           value={relativeRange} 
           onChange={(e) => handleRelativeRangeChange(e.target.value)}
-          className="range-select"
+          className="range-select futuristic-select"
+          style={{ appearance: 'none', backgroundImage: 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\'><path d=\'M7 10l5 5 5-5H7z\' fill=\'%23FF0000\' /></svg>")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center', paddingRight: '30px' }}  // Updated to red fill
         >
           {/* Use the dynamically selected presets */} 
           {presetOptions.map(option => (
               <option key={option.value} value={option.value}>{option.label}</option>
           ))}
         </select>
-      </div>
-      
-      <div className="filter-section">
-        <div className="date-inputs">
-          <div>
-            <label>Start Date:</label>
-            <input
-              type="date"
-              name="startDate"
-              value={inputStartDate} // Controlled by YYYY-MM-DD state
-              onChange={handleDateInputChange}
-              min={inputMinDate}
-              max={inputEndDate || inputMaxDate} // Prevent start > end via picker
-              required
-              disabled={!minDate || relativeRange !== ''} // Disable if no data range OR preset selected
-            />
-          </div>
-          <div>
-            <label>End Date:</label>
-            <input
-              type="date"
-              name="endDate"
-              value={inputEndDate} // Controlled by YYYY-MM-DD state
-              onChange={handleDateInputChange}
-              min={inputStartDate || inputMinDate} // Prevent end < start via picker
-              max={inputMaxDate}
-              required
-              disabled={!maxDate || relativeRange !== ''} // Disable if no data range OR preset selected
-            />
-          </div>
-        </div>
-        {/* Show Apply button only when in Custom mode */} 
-        {relativeRange === '' && (
-          <button type="submit" className="apply-button">Apply Filter</button>
-        )}
-      </div>
-      
-      {error && <div className="error-message">{error}</div>}
-    </form>
+        <input
+          type="date"
+          name="startDate"
+          value={inputStartDate}
+          onChange={handleDateInputChange}
+          min={inputMinDate}
+          max={inputEndDate || inputMaxDate}
+          required
+          disabled={!minDate || relativeRange !== ''}
+          className="futuristic-input"
+        />
+        <input
+          type="date"
+          name="endDate"
+          value={inputEndDate}
+          onChange={handleDateInputChange}
+          min={inputStartDate || inputMinDate}
+          max={inputMaxDate}
+          required
+          disabled={!maxDate || relativeRange !== ''}
+          className="futuristic-input"
+        />
+        <button type="submit" className="apply-button futuristic-button">Apply Filter</button>
+      </form>
+      {error && <div className="error-message futuristic-error-message">{error}</div>}
+    </div>
   );
 };
 

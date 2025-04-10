@@ -72,10 +72,16 @@
     "upload": 857.599
   },
   {
+    "loginTime": "04-04-2025 12:16:28",
+    "sessionTime": "10:00:00",
+    "download": 8775.254,
+    "upload": 1645.841
+  },
+  {
     "loginTime": "04-04-2025 02:16:26",
-    "sessionTime": "01:00:00",
-    "download": 452.549,
-    "upload": 128.597
+    "sessionTime": "10:00:00",
+    "download": 2727.29,
+    "upload": 745.211
   },
   {
     "loginTime": "12-10-2024 21:37:40",
@@ -3136,6 +3142,108 @@
     "sessionTime": "00:23:51",
     "download": 41.869,
     "upload": 27.188
+  },
+  {
+    "loginTime": "10-04-2025 23:10:41",
+    "sessionTime": "04:00:00",
+    "download": 5074.694,
+    "upload": 2339.596
+  },
+  {
+    "loginTime": "10-04-2025 22:24:15",
+    "sessionTime": "00:36:09",
+    "download": 210.579,
+    "upload": 108.731
+  },
+  {
+    "loginTime": "10-04-2025 12:24:13",
+    "sessionTime": "10:00:00",
+    "download": 9700.935,
+    "upload": 4277.145
+  },
+  {
+    "loginTime": "10-04-2025 02:24:11",
+    "sessionTime": "10:00:00",
+    "download": 13687.568,
+    "upload": 877.779
+  },
+  {
+    "loginTime": "09-04-2025 16:24:09",
+    "sessionTime": "10:00:00",
+    "download": 3298.929,
+    "upload": 510.331
+  },
+  {
+    "loginTime": "09-04-2025 06:24:07",
+    "sessionTime": "10:00:00",
+    "download": 2581.338,
+    "upload": 484.378
+  },
+  {
+    "loginTime": "09-04-2025 02:16:54",
+    "sessionTime": "04:06:03",
+    "download": 313.623,
+    "upload": 160.379
+  },
+  {
+    "loginTime": "08-04-2025 16:16:52",
+    "sessionTime": "10:00:00",
+    "download": 7892.697,
+    "upload": 1194.98
+  },
+  {
+    "loginTime": "08-04-2025 06:16:50",
+    "sessionTime": "10:00:00",
+    "download": 1474.677,
+    "upload": 409.614
+  },
+  {
+    "loginTime": "07-04-2025 20:16:48",
+    "sessionTime": "10:00:00",
+    "download": 1653.18,
+    "upload": 430.304
+  },
+  {
+    "loginTime": "07-04-2025 10:16:46",
+    "sessionTime": "10:00:00",
+    "download": 2396.226,
+    "upload": 457.161
+  },
+  {
+    "loginTime": "07-04-2025 00:16:44",
+    "sessionTime": "10:00:00",
+    "download": 3442.887,
+    "upload": 581.256
+  },
+  {
+    "loginTime": "06-04-2025 14:16:42",
+    "sessionTime": "10:00:00",
+    "download": 7287.714,
+    "upload": 775.236
+  },
+  {
+    "loginTime": "06-04-2025 04:16:39",
+    "sessionTime": "10:00:00",
+    "download": 23124.389,
+    "upload": 1784.822
+  },
+  {
+    "loginTime": "05-04-2025 18:16:37",
+    "sessionTime": "10:00:00",
+    "download": 6559.861,
+    "upload": 1193.934
+  },
+  {
+    "loginTime": "05-04-2025 08:16:35",
+    "sessionTime": "10:00:00",
+    "download": 5734.789,
+    "upload": 814.945
+  },
+  {
+    "loginTime": "04-04-2025 22:16:30",
+    "sessionTime": "10:00:00",
+    "download": 5303.643,
+    "upload": 720.657
   },
   {
     "loginTime": "03-04-2025 16:16:24",

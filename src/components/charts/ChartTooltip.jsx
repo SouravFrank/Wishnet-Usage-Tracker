@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { formatDataUsage, formatDate } from '../../utils/chartUtils';
+import '../../styles/ChartTooltip.css';
 
 const ChartTooltip = ({ active, payload, label, timeGranularity }) => {
   if (!active || !payload || !payload.length) return null;
@@ -8,8 +9,15 @@ const ChartTooltip = ({ active, payload, label, timeGranularity }) => {
   const data = payload[0].payload;
   return (
     <div
-      className='custom-tooltip'
-      style={{ background: '#fff', padding: '10px', border: '1px solid #ccc', fontSize: '11.5px' }}
+      className='modern-tooltip'
+      style={{ 
+        background: '#fff', 
+        padding: '10px', 
+        border: '1px solid #ccc', 
+        fontSize: '11.5px', 
+        boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)', 
+        transition: 'all 0.3s ease-in-out' 
+      }}
     >
       <p>{`${timeGranularity === 'session' ? 'Login Time' : 'Date'}: ${formatDate(
         label,

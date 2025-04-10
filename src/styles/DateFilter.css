@@ -1,103 +1,118 @@
 /* DateFilter.css */
 
 .date-filter {
-    background-color: var(--card-background);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px var(--shadow-color);
-    padding: 15px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
-  
-  .date-filter input[type="date"] {
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-    color: #333;
-    background-color: #fff;
-  }
-  
-  .date-filter input[type="date"]:disabled,
-  .date-filter input[type="date"][readonly] {
-    background-color: #f5f5f5;
-    cursor: not-allowed;
-    opacity: 0.7;
-  }
-  
-  .date-filter input[type="date"].invalid {
-    border-color: #ff0000;
-    background-color: #fff0f0;
-  }
-  
-  .date-filter select {
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-    color: #333;
-    background-color: #fff;
-    min-width: 120px;
-  }
-  
-  .date-filter button {
-    padding: 8px 15px;
-    background-color: #800303;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .date-filter button:hover {
-    background-color: #ff6767;
-  }
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);  /* Softer red glow */
+  animation: futuristicGlow 1.5s infinite alternate;
+  margin-bottom: 25px;
+  display: flex;  /* Ensure single row */
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  border: 2px solid #ffcccc;  /* Light red border */
+}
 
-  .date-filter button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
+.futuristic-form {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+}
 
-  .error-message {
-    color: #ff0000;
-    font-size: 0.875rem;
-    margin-top: 0.5rem;
-  }
-  
-  .date-range-info {
-    font-size: 0.8rem;
-    color: #666;
-    margin-top: 0.25rem;
-  }
-  
-  /* Tooltip for date range validation */
-  .date-filter .tooltip {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .date-filter .tooltip .tooltip-text {
-    visibility: hidden;
-    width: 200px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -100px;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  
-  .date-filter .tooltip:hover .tooltip-text {
-    visibility: visible;
-    opacity: 1;
-  }
+.futuristic-input, .futuristic-select {
+  padding: 15px;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #000;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);  /* Red glow */
+  transition: box-shadow 0.4s, border 0.4s;
+  flex: 1;  /* Allow growth in row */
+}
+
+.futuristic-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 10l5 5 5-5H7z' fill='%23FF0000' /></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;  /* Ensure space for chevron */
+}
+
+.futuristic-select:focus {
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);  /* Enhanced red glow */
+  border-color: #FF4500;
+}
+
+.futuristic-input:focus {
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);  /* Enhanced red glow */
+  border-color: #FF4500;
+}
+
+.futuristic-button {
+  padding: 15px 30px;
+  background: linear-gradient(45deg, #ffffff, #ffebee);  /* Light red gradient */
+  color: #000;
+  border: 1px solid #ffcccc;
+  border-radius: 10px;
+  cursor: pointer;
+  animation: pulse 0.8s infinite;
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.15);
+}
+
+.futuristic-button:hover {
+  box-shadow: 0 0 18px rgba(255, 0, 0, 0.3);
+  transform: translateY(-3px);
+}
+
+.error-message {
+  color: #ff0000;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.date-range-info {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+/* Tooltip for date range validation */
+.date-filter .tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.date-filter .tooltip .tooltip-text {
+  visibility: hidden;
+  width: 200px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -100px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.date-filter .tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+@keyframes futuristicGlow {
+  from { box-shadow: 0 0 0.5px rgba(255, 0, 0, 0.4); }
+  to { box-shadow: 0 0 3px rgba(255, 0, 0, 0.6); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
