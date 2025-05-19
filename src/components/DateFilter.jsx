@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { formatCustomDate, formatToYYYYMMDD, parseDate, isSameDay } from '../utils/datahelper';
-import { TIME_GRANULARITY, GRANULARITY_PRESETS } from '../constants/dateFilterConstants';
+import { TIME_GRANULARITY, GRANULARITY_PRESETS, DEFAULT_PRESETS } from '../constants/dateFilterConstants';
 import { calculateDateRange } from '../utils/dateFilterHelpers';
 import '../styles/DateFilter.css';
 
@@ -22,7 +22,7 @@ const DateFilter = ({
   const [inputEndDate, setInputEndDate] = useState('');
 
   // State for the quick range selector
-  const [relativeRange, setRelativeRange] = useState('');
+  const [relativeRange, setRelativeRange] = useState(DEFAULT_PRESETS[timeGranularity]);
 
   const [error, setError] = useState('');
 
@@ -42,7 +42,7 @@ const DateFilter = ({
   // --- Effect to Sync Dropdown from Dates ---
   useEffect(() => {
     if (!initialStartDate || !initialEndDate || !minDate || !maxDate) {
-      setRelativeRange('');
+      setRelativeRange(DEFAULT_PRESETS[timeGranularity]);
       return;
     }
 
@@ -65,69 +65,58 @@ const DateFilter = ({
       }
     }
 
-    setRelativeRange(matchedRange);
-  }, [initialStartDate, initialEndDate, minDate, maxDate, presetOptions]);
+    setRelativeRange(matchedRange || DEFAULT_PRESETS[timeGranularity]);
+  }, [initialStartDate, initialEndDate, minDate, maxDate, presetOptions, timeGranularity]);
 
-  const handleRelativeRangeChange = useCallback(
-    (value) => {
-      setRelativeRange(value);
-      setError('');
+  const handleRelativeRangeChange = useCallback((value) => {
+    setRelativeRange(value);
+    setError('');
+    
+    if (!value) return;
 
-      if (!value) return;
+    const range = calculateDateRange(value, minDate, maxDate);
 
-      const range = calculateDateRange(value, minDate, maxDate);
+    if (range && range.startDate && range.endDate) {
+      setInputStartDate(formatToYYYYMMDD(range.startDate));
+      setInputEndDate(formatToYYYYMMDD(range.endDate));
+    } else {
+      console.warn('Could not calculate range for preset:', value);
+      setInputStartDate('');
+      setInputEndDate('');
+    }
+  }, [minDate, maxDate]);
 
-      if (range && range.startDate && range.endDate) {
-        setInputStartDate(formatToYYYYMMDD(range.startDate));
-        setInputEndDate(formatToYYYYMMDD(range.endDate));
-        onFilterChange({
-          startDate: formatCustomDate(range.startDate),
-          endDate: formatCustomDate(range.endDate),
-        });
-      } else {
-        console.warn('Could not calculate range for preset:', value);
-        setInputStartDate('');
-        setInputEndDate('');
-        onFilterChange({ startDate: null, endDate: null });
-      }
-    },
-    [minDate, maxDate, onFilterChange],
-  );
+  const validateDates = useCallback((startStr, endStr) => {
+    const start = startStr ? new Date(startStr + 'T00:00:00') : null;
+    const end = endStr ? new Date(endStr + 'T00:00:00') : null;
+    
+    if (!start || !end) {
+      setError('Invalid date format. Please use DD-MM-YYYY.');
+      return false;
+    }
 
-  const validateDates = useCallback(
-    (startStr, endStr) => {
-      const start = startStr ? new Date(startStr + 'T00:00:00') : null;
-      const end = endStr ? new Date(endStr + 'T00:00:00') : null;
+    if (start > end) {
+      setError('Start date cannot be after end date');
+      return false;
+    }
 
-      if (!start || !end) {
-        setError('Invalid date format. Please use DD-MM-YYYY.');
-        return false;
-      }
-
-      if (start > end) {
-        setError('Start date cannot be after end date');
-        return false;
-      }
-
-      if (minDate && start < minDate) {
-        setError(`Start date cannot be before ${formatToYYYYMMDD(minDate)}`);
-        return false;
-      }
-
-      if (maxDate && end > maxDate) {
-        setError(`End date cannot be after ${formatToYYYYMMDD(maxDate)}`);
-        return false;
-      }
-
-      setError('');
-      return true;
-    },
-    [minDate, maxDate],
-  );
+    if (minDate && start < minDate) {
+      setError(`Start date cannot be before ${formatToYYYYMMDD(minDate)}`);
+      return false;
+    }
+    
+    if (maxDate && end > maxDate) {
+      setError(`End date cannot be after ${formatToYYYYMMDD(maxDate)}`);
+      return false;
+    }
+    
+    setError('');
+    return true;
+  }, [minDate, maxDate]);
 
   const handleDateInputChange = useCallback((e) => {
     const { name, value } = e.target;
-
+    
     if (name === 'startDate') {
       setInputStartDate(value);
     } else {
@@ -137,37 +126,31 @@ const DateFilter = ({
     setError('');
   }, []);
 
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-      if (validateDates(inputStartDate, inputEndDate)) {
-        const startInputDate = parseDate(inputStartDate);
-        const endInputDate = parseDate(inputEndDate);
+  const handleSubmit = useCallback((e) => {
+    e.preventDefault();
+    if (validateDates(inputStartDate, inputEndDate)) {
+      const startInputDate = parseDate(inputStartDate);
+      const endInputDate = parseDate(inputEndDate);
 
-        if (startInputDate && endInputDate) {
-          onFilterChange({
-            startDate: formatCustomDate(startInputDate),
-            endDate: formatCustomDate(endInputDate),
-          });
-        } else {
-          setError('Invalid date selected in calendar.');
-        }
+      if (startInputDate && endInputDate) {
+        onFilterChange({
+          startDate: formatCustomDate(startInputDate),
+          endDate: formatCustomDate(endInputDate),
+          relativeRange
+        });
+      } else {
+        setError('Invalid date selected in calendar.');
       }
-    },
-    [inputStartDate, inputEndDate, validateDates, onFilterChange],
-  );
-
+    }
+  }, [inputStartDate, inputEndDate, validateDates, onFilterChange, relativeRange]);
+  
   const inputMinDate = useMemo(() => (minDate ? formatToYYYYMMDD(minDate) : ''), [minDate]);
   const inputMaxDate = useMemo(() => (maxDate ? formatToYYYYMMDD(maxDate) : ''), [maxDate]);
 
   return (
     <div className='date-filter' style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit(e);
-          onFilterChange({ relativeRange, startDate: inputStartDate, endDate: inputEndDate });
-        }}
+        onSubmit={handleSubmit}
         className='futuristic-form'
         style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}
       >

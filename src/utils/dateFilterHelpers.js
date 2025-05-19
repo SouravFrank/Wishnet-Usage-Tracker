@@ -46,6 +46,12 @@ export const getEndOfMonth = (date) => {
   return new Date(date.getFullYear(), date.getMonth() + 1, 0);
 };
 
+// Get the start of year to date
+export const getStartOfYearToDate = (date) => {
+  if (!date) return null;
+  return new Date(date.getFullYear(), 0, 1);
+};
+
 export const calculateDateRange = (preset, minDate, maxDate) => {
   let startDate = null;
   let endDate = null;
@@ -63,7 +69,7 @@ export const calculateDateRange = (preset, minDate, maxDate) => {
     case 'today':
       // Only possible if max date allows today
       if (maxDate && maxDate < today) {
-        startDate = new Date(maxDate); // Clamp to maxDate if today isn't reachable
+        startDate = new Date(maxDate);
         endDate = new Date(maxDate);
       } else {
         startDate = new Date(today);
@@ -75,6 +81,18 @@ export const calculateDateRange = (preset, minDate, maxDate) => {
       yesterday.setDate(today.getDate() - 1);
       startDate = new Date(yesterday);
       endDate = new Date(yesterday);
+      break;
+    }
+    case 'last24': {
+      endDate = new Date(potentialEndDate);
+      startDate = new Date(potentialEndDate);
+      startDate.setHours(startDate.getHours() - 24);
+      break;
+    }
+    case 'last48': {
+      endDate = new Date(potentialEndDate);
+      startDate = new Date(potentialEndDate);
+      startDate.setHours(startDate.getHours() - 48);
       break;
     }
     case 'last7':
@@ -98,6 +116,12 @@ export const calculateDateRange = (preset, minDate, maxDate) => {
       startDate = getStartOfWeek(endDate);
       break;
     }
+    case 'last4': {
+      endDate = new Date(potentialEndDate);
+      startDate = new Date(potentialEndDate);
+      startDate.setDate(potentialEndDate.getDate() - (4 * 7) + 1); // 4 weeks inclusive
+      break;
+    }
     case 'thisMonth':
       startDate = getStartOfMonth(potentialEndDate);
       endDate = new Date(potentialEndDate);
@@ -116,6 +140,10 @@ export const calculateDateRange = (preset, minDate, maxDate) => {
       endDate = getEndOfMonth(potentialEndDate);
       startDate = getStartOfNMonthsAgo(potentialEndDate, 5);
       break;
+    case 'last12':
+      endDate = getEndOfMonth(potentialEndDate);
+      startDate = getStartOfNMonthsAgo(potentialEndDate, 11);
+      break;
     case 'thisYear':
       startDate = getStartOfYear(potentialEndDate);
       endDate = new Date(potentialEndDate);
@@ -127,11 +155,10 @@ export const calculateDateRange = (preset, minDate, maxDate) => {
       endDate = getEndOfYear(lastYearDate);
       break;
     }
-    case 'last12': {
-      endDate = getEndOfMonth(potentialEndDate);
-      startDate = getStartOfNMonthsAgo(potentialEndDate, 11);
+    case 'yearToDate':
+      startDate = getStartOfYearToDate(potentialEndDate);
+      endDate = new Date(potentialEndDate);
       break;
-    }
     default:
       console.warn('Unhandled preset value in calculateDateRange:', preset);
       return null;
