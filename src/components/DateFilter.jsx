@@ -33,16 +33,24 @@ const DateFilter = ({
 
   // --- Effect to Sync Inputs from Parent ---
   useEffect(() => {
+    // Only update if the parent values are different from current state
     const startYYYYMMDD = formatToYYYYMMDD(initialStartDate);
     const endYYYYMMDD = formatToYYYYMMDD(initialEndDate);
-    if (startYYYYMMDD) setInputStartDate(startYYYYMMDD);
-    if (endYYYYMMDD) setInputEndDate(endYYYYMMDD);
-  }, [initialStartDate, initialEndDate]);
+    
+    if (startYYYYMMDD && startYYYYMMDD !== inputStartDate) {
+      setInputStartDate(startYYYYMMDD);
+    }
+    if (endYYYYMMDD && endYYYYMMDD !== inputEndDate) {
+      setInputEndDate(endYYYYMMDD);
+    }
+  }, [initialStartDate, initialEndDate, inputStartDate, inputEndDate]);
 
   // --- Effect to Sync Dropdown from Dates ---
   useEffect(() => {
     if (!initialStartDate || !initialEndDate || !minDate || !maxDate) {
-      setRelativeRange(DEFAULT_PRESETS[timeGranularity]);
+      if (relativeRange !== DEFAULT_PRESETS[timeGranularity]) {
+        setRelativeRange(DEFAULT_PRESETS[timeGranularity]);
+      }
       return;
     }
 
@@ -65,8 +73,13 @@ const DateFilter = ({
       }
     }
 
-    setRelativeRange(matchedRange || DEFAULT_PRESETS[timeGranularity]);
-  }, [initialStartDate, initialEndDate, minDate, maxDate, presetOptions, timeGranularity]);
+    // Only update if we found a match and it's different from current state
+    if (matchedRange && matchedRange !== relativeRange) {
+      setRelativeRange(matchedRange);
+    } else if (!matchedRange && relativeRange !== '') {
+      setRelativeRange('');
+    }
+  }, [initialStartDate, initialEndDate, minDate, maxDate, presetOptions, timeGranularity, relativeRange]);
 
   const handleRelativeRangeChange = useCallback((value) => {
     setRelativeRange(value);
@@ -133,16 +146,22 @@ const DateFilter = ({
       const endInputDate = parseDate(inputEndDate);
 
       if (startInputDate && endInputDate) {
-        onFilterChange({
-          startDate: formatCustomDate(startInputDate),
-          endDate: formatCustomDate(endInputDate),
-          relativeRange
-        });
+        const formattedStartDate = formatCustomDate(startInputDate);
+        const formattedEndDate = formatCustomDate(endInputDate);
+        
+        // Only call onFilterChange if the dates have actually changed
+        if (formattedStartDate !== initialStartDate || formattedEndDate !== initialEndDate) {
+          onFilterChange({
+            startDate: formattedStartDate,
+            endDate: formattedEndDate,
+            relativeRange
+          });
+        }
       } else {
         setError('Invalid date selected in calendar.');
       }
     }
-  }, [inputStartDate, inputEndDate, validateDates, onFilterChange, relativeRange]);
+  }, [inputStartDate, inputEndDate, validateDates, onFilterChange, relativeRange, initialStartDate, initialEndDate]);
   
   const inputMinDate = useMemo(() => (minDate ? formatToYYYYMMDD(minDate) : ''), [minDate]);
   const inputMaxDate = useMemo(() => (maxDate ? formatToYYYYMMDD(maxDate) : ''), [maxDate]);
